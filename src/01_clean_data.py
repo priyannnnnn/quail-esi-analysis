@@ -46,14 +46,14 @@ def clean_sensor_data(filepath):
                 errors='coerce'
             )
 
-    # Parse timestamp dengan format YY/MM/DD HH.MM (misal: 25/04/26 15.42)
+    # Parse timestamp dengan format DD/MM/YY HH.MM (misal: 25/04/26 15.42 → 2026-04-25 15:42)
     df['timestamp'] = pd.to_datetime(
-        df['timestamp'], format='%y/%m/%d %H.%M', errors='coerce'
+        df['timestamp'], format='%d/%m/%y %H.%M', errors='coerce'
     )
     # Fallback ke parser otomatis jika format di atas gagal
     if df['timestamp'].isnull().all():
         df['timestamp'] = pd.to_datetime(
-            df['timestamp'], errors='coerce', dayfirst=False
+            df['timestamp'], errors='coerce', dayfirst=True
         )
     
     # Hapus baris yang waktunya gagal diparse
